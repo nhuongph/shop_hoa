@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//WebContent/jsp/hoa/addhoa.jsp=UTF-8
+encoding//WebContent/jsp/hoa/showhoa.jsp=UTF-8
+encoding//src/constant/ErrorMessage.java=UTF-8
+encoding//src/controller/HoaController.java=UTF-8
+encoding//src/service/HoaService.java=UTF-8
