@@ -1,3 +1,5 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="bean.HoaBean"%>
 <%@page import="bean.ErrorHoaBean"%>
@@ -100,17 +102,20 @@
 					<th>Thành Tiền</th>
 				</tr>
 				<% 
-				ArrayList<HoaBean> arrHoa = (ArrayList<HoaBean>) session.getAttribute("arrHoa");
+				HashMap<String, HoaBean> arrHoa = (HashMap<String, HoaBean>) session.getAttribute("arrHoa");
 				if (arrHoa != null) {
 					int stt = 1;
-					for (HoaBean hoa : arrHoa) {%>
+					for (Map.Entry<String, HoaBean> entry : arrHoa.entrySet()) {
+						String key = entry.getKey();
+						HoaBean value = entry.getValue();
+					%>
 						<tr>
 							<td><%=stt++ %></td>
-							<td><%=hoa.getId() %></td>
-							<td><%=hoa.getTen() %></td>
-							<td><%=hoa.getSoLuong() %></td>
-							<td><%=hoa.getGia() %></td>
-							<td><%=Integer.parseInt(hoa.getGia()) * Integer.parseInt(hoa.getSoLuong()) %></td>
+							<td><a href="<%=request.getContextPath() %>/show-hoa?id=<%=value.getId() %>"><%=value.getId() %></a></td>
+							<td><%=value.getTen() %></td>
+							<td><%=value.getSoLuong() %></td>
+							<td><%=value.getGia() %></td>
+							<td><%=Integer.parseInt(value.getGia()) * Integer.parseInt(value.getSoLuong()) %></td>
 						</tr>
 					<%}
 				} %>

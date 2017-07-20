@@ -2,6 +2,9 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,7 +48,7 @@ public class HoaController extends HttpServlet {
 		HttpSession session = request.getSession();
 		RequestDispatcher rd = null;
 		ErrorHoaBean errHoaBean = null;
-		ArrayList<HoaBean> arrHoa = null;
+		HashMap<String, HoaBean> arrHoa = null;
 		try {
 			HoaBean hoaBean = this.hoaService.getParameter(request);
 			errHoaBean = this.hoaService.checkParameter(request);
@@ -56,12 +59,14 @@ public class HoaController extends HttpServlet {
 				rd.forward(request, response);
 				return;
 			}
-			arrHoa = (ArrayList<HoaBean>) session.getAttribute("arrHoa");
+			arrHoa = (HashMap<String, HoaBean>) session.getAttribute("arrHoa");
 			if (arrHoa == null) {
-				arrHoa = new ArrayList<HoaBean>();
+				arrHoa = new HashMap<String, HoaBean>();
 			}
-			for (HoaBean hoa : arrHoa) {
-				if (hoaBean.getId().equals(hoa.getId())) {
+			for (Map.Entry<String, HoaBean> entry : arrHoa.entrySet()) {
+				String key = entry.getKey();
+				HoaBean value = entry.getValue();
+				if (hoaBean.getId().equals(value.getId())) {
 					errHoaBean = new ErrorHoaBean();
 					errHoaBean.setErrId("Id hoa "
 							.concat(ErrorMessage.ERR_DUPLICATE));
@@ -72,13 +77,24 @@ public class HoaController extends HttpServlet {
 					return;
 				}
 			}
-			arrHoa.add(hoaBean);
+			arrHoa.put(hoaBean.getId(), hoaBean);
 			session.setAttribute("arrHoa", arrHoa);
 			rd = request.getRequestDispatcher("/jsp/hoa/addhoa.jsp");
 			rd.forward(request, response);
 		} catch (Exception e) {
 			request.setAttribute("err", "Có lỗi xảy ra ở server.");
 		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void showHoa(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		RequestDispatcher rd = null;
+		rd = request.getRequestDispatcher("/jsp/hoa/showhoa.jsp");
+		rd.forward(request, response);
+		
 	}
 
 }

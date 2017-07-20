@@ -17,4 +17,12 @@
     <servlet-name>HoaController</servlet-name>
     <url-pattern>/add-hoa</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>showHoa</servlet-name>
+    <servlet-class>controller.HoaController.showHoa</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>showHoa</servlet-name>
+    <url-pattern>/show-hoa</url-pattern>
+  </servlet-mapping>
 </web-app>
